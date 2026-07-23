@@ -1,16 +1,348 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Lifestyle Medicine: Nutrition</title>
-  <style>
-    body {
-      background-color: #3E7CA6;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nutrition · A Lifestyle Medicine Pillar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-dark: #1f2e1a;
+    --bg-dark-2: #263524;
+    --paper: #efe7d3;
+    --gold: #d9a441;
+    --clay: #b5533c;
+    --leaf: #7fa06b;
+    --leaf-dim: #4f6b45;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--bg-dark);
+    color: var(--paper);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  /* --- Spacer sections so scroll-trigger is testable --- */
+  .spacer {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    text-align: center;
+  }
+  .spacer.top {
+    background: var(--bg-dark);
+  }
+  .spacer.top p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--leaf);
+    opacity: 0.8;
+  }
+  .spacer.bottom {
+    background: var(--bg-dark-2);
+    color: var(--paper);
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-style: italic;
+    opacity: 0.6;
+  }
+
+  .scroll-arrow {
+    display: block;
+    margin: 1.2rem auto 0;
+    animation: bob 1.8s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+  }
+
+  /* --- Pillar section --- */
+  .pillar-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(180deg, var(--bg-dark-2) 0%, #2c3d27 100%);
+    padding: 4rem 6vw;
+  }
+
+  .pillar-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .pillar-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  h2.pillar-title {
+    font-family: 'Fraunces', serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    line-height: 1.05;
+    margin: 0.5rem 0 1.4rem;
+    color: var(--paper);
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s ease 0.08s, transform 0.7s ease 0.08s;
+  }
+
+  h2.pillar-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .pillar-text {
+    font-size: 1.08rem;
+    line-height: 1.65;
+    color: var(--paper);
+    opacity: 0.88;
+    max-width: 46ch;
+    margin: 0 0 1.6rem;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s ease 0.16s, transform 0.7s ease 0.16s;
+  }
+
+  .pillar-stat {
+    border-left: 3px solid var(--clay);
+    padding: 0.2rem 0 0.2rem 1rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--paper);
+    opacity: 0.85;
+    max-width: 42ch;
+    margin-bottom: 1.6rem;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s ease 0.24s, transform 0.7s ease 0.24s;
+  }
+  .pillar-stat strong { color: var(--gold); font-weight: 600; }
+
+  .pillar-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(217, 164, 65, 0.12);
+    border: 1px solid rgba(217, 164, 65, 0.4);
+    color: var(--paper);
+    padding: 0.7rem 1.1rem;
+    border-radius: 999px;
+    font-size: 0.92rem;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s ease 0.32s, transform 0.7s ease 0.32s;
+  }
+
+  .pillar-section.in-view .pillar-label,
+  .pillar-section.in-view .pillar-title,
+  .pillar-section.in-view .pillar-text,
+  .pillar-section.in-view .pillar-stat,
+  .pillar-section.in-view .pillar-action {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .pillar-section.in-view .pillar-label { opacity: 0.9; }
+  .pillar-section.in-view .pillar-text { opacity: 0.88; }
+  .pillar-section.in-view .pillar-stat { opacity: 0.85; }
+
+  /* --- Plate visual --- */
+  .pillar-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #plate-svg {
+    width: 100%;
+    max-width: 380px;
+    height: auto;
+    overflow: visible;
+  }
+
+  .plate-outline {
+    fill: none;
+    stroke: var(--paper);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-dasharray: 720;
+    stroke-dashoffset: 720;
+    transition: stroke-dashoffset 1.4s ease;
+  }
+
+  .wedge {
+    opacity: 0;
+    transform-origin: 150px 150px;
+    transform: scale(0.85);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .wedge.veg { transition-delay: 0.5s; fill: var(--leaf); }
+  .wedge.grain { transition-delay: 0.75s; fill: var(--gold); }
+  .wedge.protein { transition-delay: 1s; fill: var(--clay); }
+
+  .plate-center-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    fill: var(--bg-dark);
+    text-anchor: middle;
+    opacity: 0;
+    transition: opacity 0.5s ease 1.2s;
+  }
+
+  .pillar-section.in-view .plate-outline { stroke-dashoffset: 0; }
+  .pillar-section.in-view .wedge { opacity: 0.92; transform: scale(1); }
+  .pillar-section.in-view .plate-center-label { opacity: 0.8; }
+
+  .legend {
+    display: flex;
+    gap: 1.2rem;
+    justify-content: center;
+    margin-top: 1.4rem;
+    flex-wrap: wrap;
+  }
+  .legend span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--paper);
+    opacity: 0.75;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .legend i {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .legend .veg-dot { background: var(--leaf); }
+  .legend .grain-dot { background: var(--gold); }
+  .legend .protein-dot { background: var(--clay); }
+
+  @media (max-width: 800px) {
+    .pillar-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      text-align: center;
     }
-  </style>
+    .pillar-text, .pillar-stat { max-width: 100%; margin-left: auto; margin-right: auto; }
+    .pillar-stat { border-left: none; border-top: 3px solid var(--clay); padding: 0.6rem 0 0; }
+  }
+</style>
 </head>
 <body>
-  <h1>Whole Food Plant-Based Eating (Lifestyle Medicine)</h1>
-  <p>This is my very first website, made with GitHub Pages.</p>
-  <img src="6-Veggies-Test.jpg" alt="A photo of six vegetables" width="400">
+
+  <div class="spacer top">
+    <div>
+      <p>Scroll to preview the nutrition pillar</p>
+      <svg class="scroll-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M4 7L10 13L16 7" stroke="#7fa06b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <section class="pillar-section" id="nutrition" data-pillar="nutrition">
+    <div class="pillar-grid">
+      <div class="pillar-content">
+        <span class="pillar-label">Pillar 01 · Nutrition</span>
+        <h2 class="pillar-title">Eat like <em>a plant.</em></h2>
+        <p class="pillar-text">
+          A whole-food, plant-predominant diet — built around vegetables, fruits,
+          legumes, whole grains, nuts, and seeds — sits at the center of Kaiser
+          Permanente's approach to preventing, and often reversing, chronic disease.
+        </p>
+        <div class="pillar-stat">
+          <strong>Diet-related disease</strong> is one of the leading causes of
+          preventable death in the U.S. — most of it tied to the heart.
+        </div>
+        <div class="pillar-action">
+          🌱&nbsp; Try this today: fill half your next plate with vegetables.
+        </div>
+      </div>
+
+      <div class="pillar-visual">
+        <div>
+          <svg id="plate-svg" viewBox="0 0 300 300">
+            <!-- hand-drawn style plate outline (slightly irregular circle) -->
+            <path class="plate-outline"
+              d="M150,20 C210,20 280,70 280,150 C280,225 215,280 150,280
+                 C82,280 20,222 20,150 C20,72 88,20 150,20 Z" />
+
+            <!-- vegetables wedge: 50% -->
+            <path class="wedge veg" d="M150,150 L150,35 A115,115 0 0 1 150,265 Z" />
+            <!-- whole grains wedge: 25% -->
+            <path class="wedge grain" d="M150,150 L150,265 A115,115 0 0 1 35,150 Z" />
+            <!-- legumes / protein wedge: 25% -->
+            <path class="wedge protein" d="M150,150 L35,150 A115,115 0 0 1 150,35 Z" />
+
+            <circle cx="150" cy="150" r="30" fill="var(--bg-dark-2)" opacity="0.001" />
+            <text class="plate-center-label" x="150" y="150">plate</text>
+          </svg>
+
+          <div class="legend">
+            <span><i class="veg-dot"></i> Vegetables &amp; fruit — half the plate</span>
+            <span><i class="grain-dot"></i> Whole grains</span>
+            <span><i class="protein-dot"></i> Legumes &amp; plant protein</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="spacer bottom">
+    <p>Next pillar: Physical Activity →</p>
+  </div>
+
+<script>
+  const sections = document.querySelectorAll('.pillar-section');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+      }
+      // Comment out the else-branch below to keep the reveal permanent
+      // instead of re-triggering on every scroll past the section.
+      else {
+        entry.target.classList.remove('in-view');
+      }
+    });
+  }, { threshold: 0.35 });
+
+  sections.forEach(section => observer.observe(section));
+</script>
+
 </body>
 </html>
